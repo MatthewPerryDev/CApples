@@ -251,12 +251,17 @@ void PrintGreenText(char message[])
 
 void GameLoop(CardType *greenCards, CardType *redCards, PlayerType *players, int numPlayers, int numRedCards, int numGreenCards, int goal)
 {
-    //Clears the initial input buffer
+    //Clears the Screen of any inital text
     system("clear");
+    
+    //Clears the initial input buffer
     getchar();
+
+    //Initializes the Game
+    //Will note be exited till the game has been won
     while (true)
     {
-        //Loops over each players hand at the Beginning of the round and replaces used cards
+        //Loops over each players hand at the Beginning of the round and replaces any used cards
         for (int i = 0; i < numPlayers; i++)
         {
             players[i] = GenPlayerHand(redCards, players[i], numRedCards);
@@ -264,11 +269,14 @@ void GameLoop(CardType *greenCards, CardType *redCards, PlayerType *players, int
 
         //Moves the Czar to the end of the array
         ShiftCzar(players, numPlayers);
+
         //Picks the green card for the round
         CardType greenCard = PickGreenCard(greenCards, numGreenCards);
+        
         //Creates an array for the index of the card in the user red cards
-        //The index of the numbers match the players index in the players array
+        //The index of in this array matches the index of the player in the players array
         int roundCards[numPlayers - 1];
+
         //Loops over each player
         for (int i = 0; i < (numPlayers - 1); i++)
         {
@@ -276,7 +284,9 @@ void GameLoop(CardType *greenCards, CardType *redCards, PlayerType *players, int
             //tells the user who's turn is next and prompts them to press enter to continue
             printf("%s's turn is next\n", players[i].Name);
             printf("Press any key to continue: ");
+            //Gets the users input
             getchar();
+            //Clears the screen
             system("clear");
             //assignes the index of the redcard the player picked to the round cards
             roundCards[i] = PickRedCard(greenCard, &players[i]);

@@ -47,8 +47,10 @@ CardType *LoadCards(const char fileName[], int *arraySize)
 {
     //Opens the card file
     FILE *inputFile = fopen(fileName, "r");
-    //intiliazes the array size to zero
+    //intiliazes the pointer to null
     CardType *cards = NULL;
+
+    //Initializes a variable to store the size of the array
     int counter = 0;
 
     //Scans the file until it reaches the end
@@ -249,6 +251,17 @@ void PrintGreenText(char message[])
     printf("\033[0m");
 }
 
+void GetInt(char message[],int min,int max, int* userInput){
+    printf("%s",message);
+    scanf("%d",userInput);
+    while ((*userInput)<min||(*userInput)>max)
+    {
+        printf("That is not in the range of %d - %d\n",min,max);
+        printf("%s",message);
+        scanf("%d",userInput);
+    }   
+}
+
 void GameLoop(CardType *greenCards, CardType *redCards, PlayerType *players, int numPlayers, int numRedCards, int numGreenCards, int goal)
 {
     //Clears the Screen of any inital text
@@ -324,23 +337,27 @@ void GameLoop(CardType *greenCards, CardType *redCards, PlayerType *players, int
 
 int main(void)
 {
+    //Seeds the random function so the cards are never the same
     srand(time(NULL));
-
+    
     int greenCardsNum;
     int redCardsNum;
     int numPlayers;
     int goal;
 
+    //Retrive the Green and redcards
     CardType *greenCards = LoadCards("greencards.txt", &greenCardsNum);
 
     CardType *redCards = LoadCards("redcards.txt", &redCardsNum);
-
+    //Loads in the player
     PlayerType *players = GetPlayerData(redCards, redCardsNum, &numPlayers, &goal);
-
+    //Starts the game
     GameLoop(greenCards, redCards, players, numPlayers, greenCardsNum, greenCardsNum, goal);
-
+    
+    //Release the memory
     free(greenCards);
     free(redCards);
     free(players);
+    
     return 0;
 }

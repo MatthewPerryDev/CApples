@@ -43,6 +43,9 @@ void PrintRedText(char message[]);
 
 void PrintGreenText(char message[]);
 
+void GetInt(char message[], int min, int max, int *userInput);
+
+
 CardType *LoadCards(const char fileName[], int *arraySize)
 {
     //Opens the card file
@@ -78,9 +81,8 @@ PlayerType *GetPlayerData(CardType *redCards, int redCardsNum, int *numPlayers, 
     //Creates a pointer to the memory that will be returned
     PlayerType *players = NULL;
 
-    //Gets the number of players
-    printf("Please enter the number of players: ");
-    scanf("%d", numPlayers);
+    //Gets the number of players with in the valid range
+    GetInt("Please enter the number of players: ",4,8,numPlayers);
 
     printf("Please enter number of green cards needed to Win: ");
     scanf("%d", goal);
@@ -251,22 +253,23 @@ void PrintGreenText(char message[])
     printf("\033[0m");
 }
 
-void GetInt(char message[],int min,int max, int* userInput){
-    printf("%s",message);
-    scanf("%d",userInput);
-    while ((*userInput)<min||(*userInput)>max)
+void GetInt(char message[], int min, int max, int *userInput)
+{
+    printf("%s", message);
+    scanf("%d", userInput);
+    while ((*userInput) < min || (*userInput) > max)
     {
-        printf("That is not in the range of %d - %d\n",min,max);
-        printf("%s",message);
-        scanf("%d",userInput);
-    }   
+        printf("That is not in the range of %d - %d\n", min, max);
+        printf("%s", message);
+        scanf("%d", userInput);
+    }
 }
 
 void GameLoop(CardType *greenCards, CardType *redCards, PlayerType *players, int numPlayers, int numRedCards, int numGreenCards, int goal)
 {
     //Clears the Screen of any inital text
     system("clear");
-    
+
     //Clears the initial input buffer
     getchar();
 
@@ -285,7 +288,7 @@ void GameLoop(CardType *greenCards, CardType *redCards, PlayerType *players, int
 
         //Picks the green card for the round
         CardType greenCard = PickGreenCard(greenCards, numGreenCards);
-        
+
         //Creates an array for the index of the card in the user red cards
         //The index of in this array matches the index of the player in the players array
         int roundCards[numPlayers - 1];
@@ -339,7 +342,7 @@ int main(void)
 {
     //Seeds the random function so the cards are never the same
     srand(time(NULL));
-    
+
     int greenCardsNum;
     int redCardsNum;
     int numPlayers;
@@ -353,11 +356,11 @@ int main(void)
     PlayerType *players = GetPlayerData(redCards, redCardsNum, &numPlayers, &goal);
     //Starts the game
     GameLoop(greenCards, redCards, players, numPlayers, greenCardsNum, greenCardsNum, goal);
-    
+
     //Release the memory
     free(greenCards);
     free(redCards);
     free(players);
-    
+
     return 0;
 }

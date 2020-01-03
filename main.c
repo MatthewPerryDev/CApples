@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+
 typedef struct card_struct
 {
     char Word[50];
@@ -45,7 +46,6 @@ void PrintGreenText(char message[]);
 
 void GetInt(char message[], int min, int max, int *userInput);
 
-
 CardType *LoadCards(const char fileName[], int *arraySize)
 {
     //Opens the card file
@@ -71,6 +71,7 @@ CardType *LoadCards(const char fileName[], int *arraySize)
         //Adds the current word to the array
         cards[counter - 1] = temp;
     }
+    //Sets the array size 
     (*arraySize) = counter;
     fclose(inputFile);
     return cards;
@@ -82,10 +83,28 @@ PlayerType *GetPlayerData(CardType *redCards, int redCardsNum, int *numPlayers, 
     PlayerType *players = NULL;
 
     //Gets the number of players with in the valid range
-    GetInt("Please enter the number of players: ",4,8,numPlayers);
+    GetInt("Please enter the number of players: ", 4, 8, numPlayers);
 
-    printf("Please enter number of green cards needed to Win: ");
-    scanf("%d", goal);
+    //Sets the number of green cards needed to win based on the number of players
+    switch (*numPlayers)
+    {
+    case 4:
+        (*goal) = 8;
+        break;
+    case 5:
+        (*goal) = 7;
+        break;
+    case 6:
+        (*goal) = 6;
+        break;
+    case 7:
+        (*goal) = 5;
+        break;
+    default:
+        (*goal) = 4;
+        break;
+    }
+
     //Creaters and assignes memmory for the number of players
     players = realloc(players, (*numPlayers) * sizeof(PlayerType));
 
@@ -319,8 +338,8 @@ void GameLoop(CardType *greenCards, CardType *redCards, PlayerType *players, int
         //Returns the index of the player that one
         int winner = Czar(players, roundCards, greenCard, numPlayers);
         getchar();
-        //Prints the winner and the card that one
 
+        //Prints the winner and the card that one
         printf("%s won the round with %s\n", players[winner - 1].Name, players[winner - 1].redCards[roundCards[winner - 1]].Word);
 
         //Checks if the game has been won

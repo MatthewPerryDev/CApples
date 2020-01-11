@@ -202,8 +202,7 @@ int PickRedCard(CardType greenCard, PlayerType *player)
         PrintRedText(message);
     }
     //Prompts the user for input
-    printf("Enter your selection: ");
-    scanf("%d", &userSelection);
+    GetInt("Enter your selection: ",1,7,&userSelection);
     //Sets the players selected redcard to used
     player->redCards[userSelection - 1].used = true;
     //clears the screen
@@ -253,8 +252,7 @@ int Czar(PlayerType *players, int roundCards[], CardType greenCard, int numPlaye
         PrintRedText(message);
     }
     //Prompts the czar for their selection
-    printf("Enter your selection: ");
-    scanf("%d", &userSelection);
+    GetInt("Enter your selection: ",1,(numPlayers-1),&userSelection);
     players[userSelection - 1].numWins++;
 
     return userSelection;
@@ -272,11 +270,13 @@ void PrintGreenText(char message[])
     printf("\033[0m");
 }
 
+
+//TODO:Add Verification if input is not an int
 void GetInt(char message[], int min, int max, int *userInput)
 {
     printf("%s", message);
     scanf("%d", userInput);
-    while ((*userInput) < min || (*userInput) > max)
+    while ((*userInput) < min || (*userInput) > max )
     {
         printf("That is not in the range of %d - %d\n", min, max);
         printf("%s", message);

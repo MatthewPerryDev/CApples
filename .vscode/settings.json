@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "prototypes.h": "c",
+        "funcproto.h": "c"
+    }
+}

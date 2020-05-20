@@ -50,7 +50,7 @@ CardType *LoadCards(const char fileName[], int *arraySize)
 {
     //Opens the card file
     FILE *inputFile = fopen(fileName, "r");
-    //intiliazes the pointer to null
+    //initializes the pointer to null
     CardType *cards = NULL;
 
     //Initializes a variable to store the size of the array
@@ -105,7 +105,7 @@ PlayerType *GetPlayerData(CardType *redCards, int redCardsNum, int *numPlayers, 
         break;
     }
 
-    //Creaters and assignes memmory for the number of players
+    //Creaters and assign's memory for the number of players
     players = realloc(players, (*numPlayers) * sizeof(PlayerType));
 
     //Loops through each player and defines the players attributes
@@ -130,7 +130,7 @@ PlayerType *GetPlayerData(CardType *redCards, int redCardsNum, int *numPlayers, 
         //Generates the players hand
         temp = GenPlayerHand(redCards, temp, redCardsNum);
 
-        //Assignes the current position in the players list to the temporary player variable
+        //Assigns the current position in the players list to the temporary player variable
         players[i] = temp;
     }
     //return the pointer to the memory
@@ -145,7 +145,7 @@ PlayerType GenPlayerHand(CardType *redcards, PlayerType player, int arraySize)
         //Checks if the cards have been used
         if (player.redCards[i].used == true)
         {
-            //Loops until a random red card has been found and isnt used
+            //Loops until a random red card has been found and isn't used
             while (true)
             {
                 int index = rand() % arraySize;
@@ -323,7 +323,7 @@ void GameLoop(CardType *greenCards, CardType *redCards, PlayerType *players, int
             getchar();
             //Clears the screen
             system("clear");
-            //assignes the index of the redcard the player picked to the round cards
+            //assigns the index of the redcard the player picked to the round cards
             roundCards[i] = PickRedCard(greenCard, &players[i]);
             getchar();
         }
